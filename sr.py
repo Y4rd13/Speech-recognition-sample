@@ -127,6 +127,7 @@ def confidence_values(confidence):
 if __name__ == "__main__":
     start_time = time.time()
 
+    # 91.99% of accuracy
     chunks_speech_recognition(silence_tresh=-60,
                               min_silence_len=1500)
 
