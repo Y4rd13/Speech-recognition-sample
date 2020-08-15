@@ -107,7 +107,7 @@ def chunks_speech_recognition(filename='audio.wav', format='wav',
 
         # accumulative confidence values
         accumulative.append(confidence_values(confidence=confidence))
-        aux_average_confidence = sum(accumulative / len(accumulative))
+        aux_average_confidence = sum(accumulative) / len(accumulative)
         print('\t\tAverage confidence: {0}'.format(aux_average_confidence))
 
     # Average confidence value
