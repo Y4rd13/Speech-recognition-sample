@@ -105,7 +105,12 @@ def chunks_speech_recognition(filename='audio.wav', format='wav',
         os.remove(path=chunk_name)
         print(response)
 
+        # accumulative confidence values
         accumulative.append(confidence_values(confidence=confidence))
+        aux_average_confidence = sum(accumulative / len(accumulative))
+        print('\t\tAverage confidence: {0}'.format(aux_average_confidence))
+
+    # Average confidence value
     total_confidence = sum(accumulative) / len(accumulative)
     print(total_confidence)
     with open('confidence.txt', 'a') as fc:
@@ -129,7 +134,7 @@ if __name__ == "__main__":
 
     # 91.99% of accuracy
     chunks_speech_recognition(silence_tresh=-60,
-                              min_silence_len=1500)
+                              min_silence_len=1000)
 
     elapsed_time = time.time() - start_time
     print('\nElapsed time: {0}'.format(elapsed_time))
