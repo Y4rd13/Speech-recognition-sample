@@ -90,11 +90,13 @@ def chunks_speech_recognition(filename='audio.wav', format='wav',
                 response['transcription'] = msg
 
                 # Confidence will be just to test purposes, delete for decrease elapsed time
+                '''
                 confidence = r.recognize_google(
                     audio_data=audio, language='en-US', show_all=True)
                 with open('confidence.txt', 'a') as fh:
                     fh.write(str(confidence))
                     fh.write('\n')
+                '''
         except sr.UnknownValueError:
             response['error'] = logging.debug(
                 'Speech recognition could not understand the audio')
@@ -106,16 +108,20 @@ def chunks_speech_recognition(filename='audio.wav', format='wav',
         print(response)
 
         # accumulative confidence values
+        '''
         accumulative.append(confidence_values(confidence=confidence))
         aux_average_confidence = sum(accumulative) / len(accumulative)
         print('\t\t\tAverage confidence: {0}'.format(aux_average_confidence))
+        '''
 
     # Average confidence value
+    '''
     total_confidence = sum(accumulative) / len(accumulative)
     print(total_confidence)
     with open('confidence.txt', 'a') as fc:
         fc.write('\n')
         fc.write(str(total_confidence))
+    '''
 
 
 def confidence_values(confidence):
