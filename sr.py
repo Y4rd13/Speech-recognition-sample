@@ -12,9 +12,10 @@ import pdb
 confidence_value = float
 
 
-def chunks_speech_recognition(filename='audio.wav', format='wav',
-                              min_silence_len=500, silence_tresh=-16, duration=10,
-                              adjust_ambient_noise=False, confidence_mode=False):
+def chunks_speech_recognition(min_silence_len=500, silence_tresh=-16, confidence_mode=False,
+                              results_output='results.txt', confidence_output='confidence.txt',
+                              duration=10, adjust_ambient_noise=False,
+                              filename='audio.wav', format='wav'):
 
     accumulative = []
 
@@ -78,13 +79,13 @@ def chunks_speech_recognition(filename='audio.wav', format='wav',
             audio = r.listen(source)
         try:
             if i == limit * MULT:
-                with open('result.txt', 'a') as f:
+                with open(results_output, 'a') as f:
                     f.write('\n')
                 limit += 1
             else:
                 msg = r.recognize_google(
                     audio_data=audio, language='en-US', show_all=False)
-                with open('result.txt', 'a') as f:
+                with open(results_output, 'a') as f:
                     f.write(' ' + msg)
 
                 response['transcription'] = msg
@@ -93,7 +94,7 @@ def chunks_speech_recognition(filename='audio.wav', format='wav',
                 if confidence_mode:
                     confidence = r.recognize_google(
                         audio_data=audio, language='en-US', show_all=True)
-                    with open('confidence.txt', 'a') as fh:
+                    with open(confidence_output, 'a') as fh:
                         fh.write(str(confidence))
                         fh.write('\n')
 
@@ -118,7 +119,7 @@ def chunks_speech_recognition(filename='audio.wav', format='wav',
     if confidence_mode:
         total_confidence = sum(accumulative) / len(accumulative)
         print(total_confidence)
-        with open('confidence.txt', 'a') as fc:
+        with open(confidence_output, 'a') as fc:
             fc.write('\n')
             fc.write(str(total_confidence))
 
@@ -135,13 +136,10 @@ def confidence_values(confidence):
 
 
 if __name__ == "__main__":
-    start_time = time.time()
+    p1 = multiprocessing.Process(
+        target=chunks_speech_recognition, args=[1000, -16, True, 'results_p1.txt', 'confidence_p1.txt'])
+    p2 = multiprocessing.Process(
+        target=chunks_speech_recognition, args=[1000, -16, True, 'results_p2.txt', 'confidence_p2.txt'])
 
-    # 91.99% of accuracy
-    chunks_speech_recognition(silence_tresh=-60,
-                              min_silence_len=1000)
-
-    elapsed_time = time.time() - start_time
-    print('\nElapsed time: {0}'.format(elapsed_time))
-    with open('confidence.txt', 'a') as f:
-        f.write(str(elapsed_time))
+    p1.start()
+    p2.start()
