@@ -66,7 +66,7 @@ def chunks_speech_recognition(filename='audio.wav', format='wav',
 
         audio_chunk.export(out_f=chunk_name,
                            bitrate='192k', format=format)
-        filename = ('chunk' + str(i) + '.wav')
+        filename = chunk_name
 
         print('Processing chunk: ' + str(i))
 
