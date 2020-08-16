@@ -137,9 +137,9 @@ def confidence_values(confidence):
 
 if __name__ == "__main__":
     p1 = multiprocessing.Process(
-        target=chunks_speech_recognition, args=[1000, -16, True, 'results_p1.txt', 'confidence_p1.txt'])
+        target=chunks_speech_recognition, args=[1000, -60, True, 'results_p1.txt', 'confidence_p1.txt'])
     p2 = multiprocessing.Process(
-        target=chunks_speech_recognition, args=[1000, -16, True, 'results_p2.txt', 'confidence_p2.txt'])
+        target=chunks_speech_recognition, args=[1000, -60, True, 'results_p2.txt', 'confidence_p2.txt'])
 
     p1.start()
     p2.start()
