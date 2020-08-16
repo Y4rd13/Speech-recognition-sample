@@ -13,7 +13,7 @@ confidence_value = float
 
 
 def chunks_speech_recognition(min_silence_len=500, silence_tresh=-16, confidence_mode=False,
-                              results_output='results.txt', confidence_output='confidence.txt',
+                              results_output='results.txt', confidence_output='confidence.txt', chunks_output='chunks',
                               duration=10, adjust_ambient_noise=False,
                               filename='audio.wav', format='wav'):
 
@@ -62,12 +62,12 @@ def chunks_speech_recognition(min_silence_len=500, silence_tresh=-16, confidence
         # it doesn't seem abruptly sliced
         # less chunck_silent could improve the speed, but decrease the accuracy
         audio_chunk = chunk_silent + chunk + chunk_silent
-        chunk_name = 'chunk{0}.wav'.format(i)
+        chunk_name = '{0}{1}.wav'.format(chunks_output, i)
         print('exporting', chunk_name)
 
         audio_chunk.export(out_f=chunk_name,
                            bitrate='192k', format=format)
-        filename = ('chunk' + str(i) + '.wav')
+        filename = chunk_name
 
         print('Processing chunk: ' + str(i))
 
